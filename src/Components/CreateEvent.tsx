@@ -1,32 +1,101 @@
-import FormEvent from '../FormEvent';
+import { useState } from "react";
 
-export default function CreateEvent() {
+function CreateEvent() {
+
+  const [organizer, setOrganizer] = useState("");
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
+  const [venue, setVenue] = useState("");
+  const [description, setDescription] = useState("");
+
+  const submitEvent = () => {
+
+    if(
+      organizer === "" ||
+      title === "" ||
+      date === "" ||
+      venue === "" ||
+      description === ""
+    ){
+      alert("Please complete all fields");
+      return;
+    }
+
+    const newEvent = {
+      organizer,
+      title,
+      date,
+      venue,
+      description
+    };
+
+    const existingEvents =
+      JSON.parse(localStorage.getItem("events") || "[]");
+
+    existingEvents.push(newEvent);
+
+    localStorage.setItem(
+      "events",
+      JSON.stringify(existingEvents)
+    );
+
+    alert("Event Created Successfully!");
+
+    setOrganizer("");
+    setTitle("");
+    setDate("");
+    setVenue("");
+    setDescription("");
+  };
+
   return (
-    <div className="grid lg:grid-cols-3 gap-16 items-start">
-      {/* Left side info */}
-      <div className="lg:col-span-1 lg:sticky lg:top-28">
-        <span className="inline-block px-4 py-1 rounded-full bg-cyan-100 text-cyan-800 text-xs font-semibold mb-3">
-          Host Section
-        </span>
-        <h1 className="text-5xl font-extrabold tracking-tighter text-slate-950 mb-5">
-          Launch your <span className="text-indigo-600">Initiative</span>
-        </h1>
-        <p className="text-slate-600 leading-relaxed mb-8">
-          Fill out the details to the right. Once submitted, your event will appear instantly on the public dashboard for thousands to see.
-        </p>
-        
-        <div className="bg-slate-950 p-6 rounded-2xl text-slate-300 text-sm space-y-3 border border-slate-800">
-          <p className="font-semibold text-white">Submission Tips:</p>
-          <p>• Use a catchy, clear title.</p>
-          <p>• Ensure venue details are precise.</p>
-          <p>• Make description engaging and informative.</p>
-        </div>
+    <div className="create-page">
+
+      <div className="create-box">
+
+        <h1>Create Community Event</h1>
+
+        <input
+          type="text"
+          placeholder="Organizer Name"
+          value={organizer}
+          onChange={(e)=>setOrganizer(e.target.value)}
+        />
+
+        <input
+          type="text"
+          placeholder="Event Title"
+          value={title}
+          onChange={(e)=>setTitle(e.target.value)}
+        />
+
+        <input
+          type="date"
+          value={date}
+          onChange={(e)=>setDate(e.target.value)}
+        />
+
+        <input
+          type="text"
+          placeholder="Venue"
+          value={venue}
+          onChange={(e)=>setVenue(e.target.value)}
+        />
+
+        <textarea
+          placeholder="Description"
+          value={description}
+          onChange={(e)=>setDescription(e.target.value)}
+        />
+
+        <button onClick={submitEvent}>
+          Submit Event
+        </button>
+
       </div>
 
-      {/* Right side Form */}
-      <div className="lg:col-span-2">
-        <FormEvent />
-      </div>
     </div>
   );
 }
+
+export default CreateEvent;
