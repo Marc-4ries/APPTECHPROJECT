@@ -1,87 +1,75 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 
-interface EventData {
-  _id: string;
-  eventName: string;
-  location: string;
-  date: string;
+export interface Message {
+  name: string;
+  email: string;
+  message: string;
+}
+
+export interface EventItem {
   organizer: string;
+  title: string;
+  date: string;
+  venue: string;
   description: string;
 }
 
-const AdminDashboard = () => {
+interface AdminProps {
+  messages: Message[];
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+}
 
-  const [events, setEvents] = useState<EventData[]>([]);
-  useEffect(() => {
-    fetchEvents();
-  }, []);
-  const fetchEvents = async () => {
-    const response = await axios.get(
-      'http://localhost:5000/api/events'
-    );
-    setEvents(response.data);
+function AdminDashboard({ messages, setMessages }: AdminProps) {
+  const deleteMsg = (index: number) => {
+    const updated = messages.filter((_, i) => i !== index);
+    setMessages(updated);
   };
-  const deleteEvent = async (
-    id: string
-  ) => {
-    try {
-      await axios.delete(
-        `http://localhost:5000/api/events/${id}`
-      );
-      setEvents(
-        events.filter(
-          (event) => event._id !== id
-        )
-      );
-      alert("Event Deleted");
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
   return (
-    <div className="container mt-5">
-      <h2 className="text-danger mb-4">
-        Admin Dashboard
-      </h2>
-      <div className="card shadow p-4">
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Event</th>
-              <th>Organizer</th>
-              <th>Date</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {events.map((event) => (
-              <tr key={event._id}>
+    <div className="glass-card" style={{ maxWidth: '950px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h2>Admin Control Center</h2>
+        <button onClick={() => window.location.href='/'} className="btn-primary" style={{ background: '#333' }}>
+          Log Out
+        </button>
+      </div>
+      
+      <table style={{ width: '100%', background: 'white', color: '#333', borderRadius: '10px', marginTop: '1rem', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr style={{ background: '#eee', textAlign: 'left' }}>
+            <th style={{ padding: '10px' }}>Name</th>
+            <th>Email</th>
+            <th>Message</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {messages.length === 0 ? (
+            <tr><td colSpan={4} style={{ textAlign: 'center', padding: '20px' }}>No messages yet.</td></tr>
+          ) : (
+            messages.map((m, i) => (
+              <tr key={i} style={{ borderBottom: '1px solid #eee' }}>
+                <td style={{ padding: '10px' }}>{m.name}</td>
+                <td>{m.email}</td>
+                <td>{m.message}</td>
                 <td>
-                  {event.eventName}
-                </td>
-                <td>
-                  {event.organizer}
-                </td>
-                <td>
-                  {event.date}
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() =>
-                      deleteEvent(event._id)
-                    }
-                  >
+                  <button onClick={() => deleteMsg(i)} style={{ background: '#ff4d4d', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}>
                     Delete
                   </button>
                 </td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            ))
+          )}
+        </tbody>
+      </table>
+      
+      {messages.length > 0 && (
+        <button onClick={() => setMessages([])} className="btn-primary" style={{ marginTop: '1rem', background: 'red' }}>
+          Delete All
+        </button>
+      )}
     </div>
   );
-};
+}
+
 export default AdminDashboard;
