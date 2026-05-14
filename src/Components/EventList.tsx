@@ -1,64 +1,125 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-function EventList() {
+interface EventData {
 
-  const [events, setEvents] = useState<any[]>([]);
+  _id: string;
+  eventName: string;
+  location: string;
+  date: string;
+  organizer: string;
+  description: string;
+
+}
+
+const EventList = () => {
+
+  const [events, setEvents] = useState<EventData[]>([]);
 
   useEffect(() => {
 
-    const storedEvents =
-      JSON.parse(localStorage.getItem("events") || "[]");
-
-    setEvents(storedEvents);
+    fetchEvents();
 
   }, []);
 
+  const fetchEvents = async () => {
+
+    try {
+
+      const response = await axios.get(
+        'http://localhost:5000/api/events'
+      );
+
+      console.log(response.data);
+
+      setEvents(response.data);
+
+    } catch (error) {
+
+      console.error(
+        "Failed to fetch events",
+        error
+      );
+
+    }
+  };
+
   return (
-    <div className="event-page">
 
-      <h1>Community Events</h1>
+    <div className="container mt-5">
 
-      <div className="event-grid">
+      <h2 className="mb-4 text-primary">
+        Community Events
+      </h2>
+
+      <div className="row">
 
         {events.length === 0 ? (
 
-          <h2 style={{color:"white"}}>
-            No Events Available
-          </h2>
+          <div className="col-12">
+
+            <div className="alert alert-info">
+
+              No Events Available
+
+            </div>
+
+          </div>
 
         ) : (
 
-          events.map((event, index) => (
+          events.map((event) => (
 
-            <div className="event-card" key={index}>
+            <div
+              key={event._id}
+              className="col-md-4 mb-4"
+            >
 
-              <h2>{event.title}</h2>
+              <div className="card shadow h-100">
 
-              <p>
-                <strong>Organizer:</strong> {event.organizer}
-              </p>
+                <div className="card-body">
 
-              <p>
-                <strong>Date:</strong> {event.date}
-              </p>
+                  <h4 className="text-primary">
+                    {event.eventName}
+                  </h4>
 
-              <p>
-                <strong>Venue:</strong> {event.venue}
-              </p>
+                  <p>
+                    <strong>Location:</strong>{" "}
+                    {event.location}
+                  </p>
 
-              <p>
-                {event.description}
-              </p>
+                  <p>
+                    <strong>Date:</strong>{" "}
+                    {event.date}
+                  </p>
+
+                  <p>
+                    {event.description}
+                  </p>
+
+                </div>
+
+                <div className="card-footer">
+
+                  <small>
+                    Organized by {event.organizer}
+                  </small>
+
+                </div>
+
+              </div>
 
             </div>
 
           ))
+
         )}
 
       </div>
 
     </div>
+
   );
-}
+};
 
 export default EventList;
