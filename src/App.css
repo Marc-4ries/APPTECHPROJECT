@@ -1,44 +1,97 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  body {
-    font-family: 'Inter', sans-serif;
-    @apply bg-[#3F2B66] text-white;
-    scroll-behavior: smooth;
-  }
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --accent-pink: #ff85a1;
+  --form-pink: #fbc2eb;
 }
 
-@layer utilities {
-  .glossy-gradient {
-    @apply bg-gradient-to-b from-[#FFAFCC] via-[#EDC4C7] via-[#CA5F7A] to-[#EDC4C7] shadow-2xl;
-    /* Transparent glaze over the gradient */
-    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 8px 16px -4px rgba(0, 0, 0, 0.15);
-  }
+
+/* Navigation Bar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 4rem;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 2rem;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-links a:hover { color: var(--accent-pink); }
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 3rem;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Forms & Inputs */
+.sdg-form {
+  background: linear-gradient(to bottom right, #fbc2eb, #a6c1ee);
+  padding: 2rem;
+  border-radius: 15px;
+  color: #333;
+}
+
+.input-group { margin-bottom: 1rem; text-align: left; }
+.input-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+.input-group input, .input-group textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.btn-primary {
+  background: #6d5dfc;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--primary-gradient);
+  background-attachment: fixed;
+  color: #fff;
+  min-height: 100vh;
   
-  .light-pink-card {
-    @apply bg-[#EDC4C7] text-slate-900 rounded-3xl p-6 shadow-lg border border-slate-100;
-  }
-  
-  .dark-footer {
-     @apply bg-[#3F2B66] text-slate-300;
-  }
+  /* Add these three lines */
+  display: flex;
+  flex-direction: column;
 }
 
-/* Custom Scrollbar for dynamic professionalism */
-::-webkit-scrollbar {
-  width: 8px;
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 2rem;
+  
+  /* Add this line to take up remaining space */
+  flex: 1;
 }
-::-webkit-scrollbar-track {
-  background: #3F2B66; 
-}
-::-webkit-scrollbar-thumb {
-  background: #EDC4C7; 
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #FFAFCC; 
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(0,0,0,0.1);
+  /* margin-top: auto; is now optional but good practice */
+  margin-top: auto; 
 }
