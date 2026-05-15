@@ -6,12 +6,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// marc's db - saves events
 const aptechDB = mongoose.createConnection("mongodb+srv://20255221_db_user:DdO3Y6cPFpSVhwRQ@aptechprojects.ns4ubnz.mongodb.net/?appName=AptechProjects");
 aptechDB.on("connected", () => console.log("AptechProjects DB connected"));
 aptechDB.on("error", (err) => console.log("AptechProjects DB error:", err));
 
-// leann's db - saves contact messages
 const portfolioDB = mongoose.createConnection("mongodb+srv://LeAnn123:leannlazaro123@cluster0.8hkc2mo.mongodb.net/PortfolioFinal?retryWrites=true&w=majority");
 portfolioDB.on("connected", () => console.log("Portfolio DB connected"));
 portfolioDB.on("error", (err) => console.log("Portfolio DB error:", err));
@@ -46,6 +44,16 @@ app.post("/api/events", async (req, res) => {
     try {
         const newEvent = await Event.create(req.body);
         res.status(201).json({ message: "Event created successfully.", event: newEvent });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// edit event
+app.put("/api/events/:id", async (req, res) => {
+    try {
+        const updated = await Event.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json({ message: "Event updated.", event: updated });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
