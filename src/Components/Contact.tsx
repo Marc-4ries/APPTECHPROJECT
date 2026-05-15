@@ -10,7 +10,7 @@ export default function Contact() {
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
 
-  // easter egg
+  // easter egg - type admin123 in all 3 fields to go to hidden page
   useEffect(() => {
     if (formData.name === "admin123" && formData.email === "admin123" && formData.message === "admin123") {
       navigate("/hidden");
@@ -37,23 +37,23 @@ export default function Contact() {
         message: formData.message,
       };
 
-      // send to marc's emailjs
+      // marc's emailjs account
       await emailjs.send(
-        import.meta.env.VITE_EMAIL_SERVICE_ID_1,
-        import.meta.env.VITE_EMAIL_TEMPLATE_ID_1,
+        "service_prl4cw7",
+        "template_2jlr37t",
         emailParams,
-        import.meta.env.VITE_EMAIL_PUBLIC_KEY_1
+        "E6BipvqYYhEL6rd3J"
       );
 
-      // send to leann's emailjs
+      // leann's emailjs account
       await emailjs.send(
-        import.meta.env.VITE_EMAIL_SERVICE_ID_2,
-        import.meta.env.VITE_EMAIL_TEMPLATE_ID_2,
+        "service_e761yci",
+        "template_xaeuqza",
         emailParams,
-        import.meta.env.VITE_EMAIL_PUBLIC_KEY_2
+        "feahIeQ5KRf17OGTk"
       );
 
-      // save to leann's mongodb
+      // save to mongodb via render
       let dbSuccess = false;
       try {
         const dbResponse = await fetch("https://apptechproject.onrender.com/contact", {
