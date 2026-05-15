@@ -39,7 +39,7 @@ export default function Contact() {
 
       // marc's emailjs account
       await emailjs.send(
-        "service_prl4cw7",
+        "service_e761yci",
         "template_2jlr37t",
         emailParams,
         "E6BipvqYYhEL6rd3J"
