@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,6 @@ export default function Contact() {
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
 
-  // easter egg - type admin123 in all 3 fields to go to hidden page
   useEffect(() => {
     if (formData.name === "admin123" && formData.email === "admin123" && formData.message === "admin123") {
       navigate("/hidden");
@@ -37,7 +36,17 @@ export default function Contact() {
         message: formData.message,
       };
 
-      // marc's emailjs account
+      // marc's emailjs account (new service)
+      await emailjs.send(
+        "service_ou7136l",
+        "template_xaeuqza"
+        ,
+        emailParams,
+        "feahIeQ5KRf17OGTk"
+
+      );
+
+      // leann's emailjs account
       await emailjs.send(
         "service_e761yci",
         "template_2jlr37t",
@@ -45,15 +54,6 @@ export default function Contact() {
         "E6BipvqYYhEL6rd3J"
       );
 
-      // leann's emailjs account
-      await emailjs.send(
-        "service_e761yci",
-        "template_xaeuqza",
-        emailParams,
-        "feahIeQ5KRf17OGTk"
-      );
-
-      // save to mongodb via render
       let dbSuccess = false;
       try {
         const dbResponse = await fetch("https://apptechproject.onrender.com/contact", {
