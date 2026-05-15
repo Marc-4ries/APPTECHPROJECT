@@ -48,7 +48,7 @@ export default function Contact() {
 
       // leann's emailjs account
       await emailjs.send(
-        "service_e761yci",
+        "service_kts19kj",
         "template_2jlr37t",
         emailParams,
         "E6BipvqYYhEL6rd3J"
