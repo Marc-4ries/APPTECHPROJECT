@@ -10,10 +10,8 @@ export default function Contact() {
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
 
-  // easter egg to go to admin
   useEffect(() => {
     if (formData.name === "admin123" && formData.email === "admin123" && formData.message === "admin123") {
-      console.log("Secret access granted.");
       navigate("/hidden");
     }
   }, [formData, navigate]);
@@ -38,7 +36,6 @@ export default function Contact() {
         message: formData.message,
       };
 
-      // send to both emailjs accounts so both recieve the email
       await emailjs.send(
         import.meta.env.VITE_EMAIL_SERVICE_ID_1,
         import.meta.env.VITE_EMAIL_TEMPLATE_ID_1,
@@ -53,10 +50,9 @@ export default function Contact() {
         import.meta.env.VITE_EMAIL_PUBLIC_KEY_2
       );
 
-      // save to mongodb
       let dbSuccess = false;
       try {
-        const dbResponse = await fetch("http://localhost:5000/contact", {
+        const dbResponse = await fetch("https://apptechproject.onrender.com/contact", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
@@ -66,7 +62,6 @@ export default function Contact() {
         console.log("Database connection failed, but email was sent.");
       }
 
-      // localStorage backup
       const newMessage = {
         _id: Date.now().toString(),
         name: formData.name,

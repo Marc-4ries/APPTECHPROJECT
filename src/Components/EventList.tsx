@@ -13,7 +13,7 @@ function EventList() {
   const [events, setEvents] = useState<EventItem[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/events')
+    fetch('https://apptechproject.onrender.com/api/events')
       .then(res => res.json())
       .then(data => setEvents(data))
       .catch(err => console.error('Error fetching events:', err));

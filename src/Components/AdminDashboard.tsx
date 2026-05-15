@@ -10,9 +10,8 @@ interface Message {
 function AdminDashboard() {
   const [messages, setMessages] = useState<Message[]>([]);
 
-  // get all messages from mongodb
   useEffect(() => {
-    fetch('http://localhost:5000/api/messages')
+    fetch('https://apptechproject.onrender.com/api/messages')
       .then(res => res.json())
       .then(data => setMessages(data))
       .catch(err => console.error('Error fetching messages:', err));
@@ -20,7 +19,7 @@ function AdminDashboard() {
 
   const deleteMsg = async (id: string) => {
     try {
-      await fetch(`http://localhost:5000/api/messages/${id}`, { method: 'DELETE' });
+      await fetch(`https://apptechproject.onrender.com/api/messages/${id}`, { method: 'DELETE' });
       setMessages(messages.filter(m => m._id !== id));
     } catch (err) {
       console.error('Error deleting message:', err);
@@ -29,7 +28,7 @@ function AdminDashboard() {
 
   const deleteAll = async () => {
     for (const msg of messages) {
-      await fetch(`http://localhost:5000/api/messages/${msg._id}`, { method: 'DELETE' });
+      await fetch(`https://apptechproject.onrender.com/api/messages/${msg._id}`, { method: 'DELETE' });
     }
     setMessages([]);
   };
@@ -41,10 +40,7 @@ function AdminDashboard() {
           <div className="card-body p-4">
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h2 className="card-title text-success mb-0">Admin Control Center</h2>
-              <button
-                onClick={() => window.location.href = '/'}
-                className="btn btn-dark"
-              >
+              <button onClick={() => window.location.href = '/'} className="btn btn-dark">
                 Log Out
               </button>
             </div>
@@ -71,10 +67,7 @@ function AdminDashboard() {
                         <td>{m.email}</td>
                         <td>{m.message}</td>
                         <td>
-                          <button
-                            onClick={() => deleteMsg(m._id)}
-                            className="btn btn-danger btn-sm"
-                          >
+                          <button onClick={() => deleteMsg(m._id)} className="btn btn-danger btn-sm">
                             Delete
                           </button>
                         </td>
