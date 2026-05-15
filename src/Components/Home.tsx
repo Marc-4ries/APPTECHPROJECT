@@ -5,7 +5,7 @@ function Home() {
         <div className="card shadow text-center p-4">
           <div className="card-body">
             <div className="display-1 mb-3">🌿</div>
-            <h1 className="card-title text-success">Sustainable Cities Events Manager</h1>
+            <h1 className="card-title text-success">Events Manager</h1>
             <p className="card-text lead mt-3">
               Building resilient, inclusive, and sustainable urban environments for the future.
               This can help our community more organized.
